@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
-import {DevTool} from "@hookform/devtools"
+import { DevTool } from "@hookform/devtools"
 import { useMytaskStore } from "@/store/taskStore"; 
+import { useEffect, useState } from "react";
 
 let renderCount = 0;
 
@@ -13,6 +14,9 @@ type FormValues={
 export default function Form(){
 
     const { appendTask } = useMytaskStore()
+
+    const [isDisabled , setIsDisabled]= useState(false);
+    const [countdown , setCountdown] = useState(2);
 
     const form = useForm<FormValues>({
         defaultValues: {
@@ -27,7 +31,28 @@ export default function Form(){
     const onSubmit = (data: FormValues) => {
         console.log(data)
         appendTask(data)
+        setIsDisabled(true)
+        setCountdown(2)
     }
+
+    useEffect(() => {
+        let intervalid : NodeJS.Timeout
+        if(countdown > 0){
+            intervalid = setInterval(() => {
+                console.log(countdown)
+                setCountdown( (prev) => prev - 1);
+                                console.log(countdown)
+
+            }, 1000);
+
+        }
+        if(countdown===0 && isDisabled){
+        setIsDisabled(false)
+        
+        }
+        return () => clearInterval(intervalid);
+        
+    })
     
     return(
         <div>
@@ -49,7 +74,8 @@ export default function Form(){
                  
                 </div>
                
-                <button className="border rounded-md p-3  backdrop-brightness-0 ">submit</button>
+                <button disabled={isDisabled}
+                        className={` ${ isDisabled ?" shake opacity-50 cursor-not-allowed  bg-[#c18db45d]": " bg-[#c18db4dd]"}  border rounded-md p-3 transition-opacity duration-8000 ease-in-out`}> submit</button>
             </form>
             {/* <DevTool control = { control }/> */}
         </div>

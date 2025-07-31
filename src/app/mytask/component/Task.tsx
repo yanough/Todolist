@@ -14,7 +14,7 @@ export default function Task( {item} : {item : taskType}) {
      const [ option , setOption ] = useState <optionType> ("more")
 
      return(
-            <div className="w-[94%] min-h-[100px] ml-[3%] bg-[#807070]  rounded-2xl p-3 pl-5 shadow-md shadow-[#807070] flex flex-row">
+            <div className="w-[94%] min-h-[100px] ml-[3%] bg-[#87A7D0]  rounded-2xl p-3 pl-5 shadow-md shadow-[#87A7D0] flex flex-row">
                <div className=" h-full w-[88%] flex flex-col">
                     <h1 className=" h-[30px] w-[100%] text-2xl font-semibold ">
                          { item.title }
