@@ -1,9 +1,11 @@
 "use client"
 import { useState } from "react"
+import { useMytaskStore } from "@/store/taskStore"
 
 type optionType = "edit" | "delete" | "more" | ""
 
 type taskType={
+     id : string,
      title : string,
      description : string ,
      deadline : string,
@@ -12,6 +14,20 @@ type taskType={
 export default function Task( {item} : {item : taskType}) {
 
      const [ option , setOption ] = useState <optionType> ("more")
+
+     const { deleteTask } = useMytaskStore();
+
+     const handleOptionChange = ( selectedOption : optionType ) => {
+          setOption( selectedOption)
+          console.log(selectedOption)
+          if(selectedOption === "delete"){
+               deleteTask(item.id)
+               setOption("more")
+          }
+          else if(selectedOption === "edit"){
+
+          }
+     }
 
      return(
             <div className="w-[94%] min-h-[100px] ml-[3%] bg-[#87A7D0]  rounded-2xl p-3 pl-5 shadow-md shadow-[#87A7D0] flex flex-row">
@@ -28,7 +44,7 @@ export default function Task( {item} : {item : taskType}) {
                </div>
 
                <div className="w-[12%] h-full text-right "> 
-                    <select className="w-[53%] h-7 m-1 mt-2 border-1 rounded-lg" value={option} onChange={ ( e ) => setOption( e.target.value as optionType ) }>
+                    <select className="w-[53%] h-7 m-1 mt-2 border-1 rounded-lg" value={option} onChange={ ( e ) => handleOptionChange( e.target.value as optionType) }>
                          <option value={"edit"}>
                               Edit
                          </option>

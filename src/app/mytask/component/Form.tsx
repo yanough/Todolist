@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { DevTool } from "@hookform/devtools"
 import { useMytaskStore } from "@/store/taskStore"; 
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 let renderCount = 0;
 
@@ -16,7 +17,7 @@ export default function Form(){
     const { appendTask } = useMytaskStore()
 
     const [isDisabled , setIsDisabled]= useState(false);
-    const [countdown , setCountdown] = useState(2);
+    const [countdown , setCountdown] = useState(0);
 
     const form = useForm<FormValues>({
         defaultValues: {
@@ -29,30 +30,33 @@ export default function Form(){
     renderCount++;
 
     const onSubmit = (data: FormValues) => {
-        console.log(data)
-        appendTask(data)
+        const newTask = {
+            id: uuidv4(),
+            ...data
+        };
+        console.log(newTask)
+        appendTask(newTask)
         setIsDisabled(true)
-        setCountdown(2)
+        setCountdown(1)
     }
 
     useEffect(() => {
-        let intervalid : NodeJS.Timeout
+        let intervalid : NodeJS.Timeout 
         if(countdown > 0){
             intervalid = setInterval(() => {
-                console.log(countdown)
                 setCountdown( (prev) => prev - 1);
-                                console.log(countdown)
+                console.log(countdown)
 
             }, 1000);
 
         }
-        if(countdown===0 && isDisabled){
+        if( countdown===0 && isDisabled ){
         setIsDisabled(false)
         
         }
         return () => clearInterval(intervalid);
         
-    })
+    } , [countdown])
     
     return(
         <div>

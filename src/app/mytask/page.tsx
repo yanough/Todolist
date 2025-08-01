@@ -9,9 +9,9 @@ export default function mytask(){
     const {tasks , appendTask} = useMytaskStore()
 
     return(
-        <div className=" h-screen w-screen bg-[#0E1F2F] py-4">
+        <div className="h-screen w-screen bg-[#0E1F2F] py-4 overflow-y-auto">
                
-            <div className="h-full w-[88%] ml-[6%] bg-[#27425D] flex flex-col gap-6 p-8 rounded-2xl relative ">
+            <div className="min-h-full w-[88%] ml-[6%] bg-[#27425D] flex flex-col gap-6 p-8 rounded-2xl relative pb-13">
                 <AddTask />
 
                 <header className="w-[90%] h-[5%] ml-[2%] text-2xl font-semibold text-right text-[#E2CAD8] flex flex-row mb-[-15px]">
