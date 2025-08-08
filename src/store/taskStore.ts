@@ -7,13 +7,13 @@ type taskType={
     title : string,
     description : string ,
     deadline : string,
-    
 } 
 
 type myTaskStoreType = {
    tasks: taskType [];
    appendTask: ( task : taskType ) => void;
    deleteTask: ( id : string ) => void;
+   editTask: ( updatedTask : taskType ) => void;
 }
 
 export const useMytaskStore = create <myTaskStoreType> ( ( set , get ) => ({
@@ -46,6 +46,15 @@ export const useMytaskStore = create <myTaskStoreType> ( ( set , get ) => ({
             tasks: state.tasks.filter( (task) => task.id !== id )
         }));
         console.log(get().tasks )
+    },
+
+    editTask: ( updatedTask ) => {
+        set( (state) => ({
+            tasks: state.tasks.map((task) => 
+                task.id === updatedTask.id ? updatedTask : task    
+            ),
+
+        }) )
     }
 
 })); 
